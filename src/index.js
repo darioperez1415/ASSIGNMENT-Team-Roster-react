@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import firebase from 'firebase/app';
+import firebaseConfig from './api/apiKeys'
 import './styles/index.scss';
 import Initialize from './Initialize';
 import reportWebVitals from './reportWebVitals';
