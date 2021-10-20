@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Spinner } from 'reactstrap';
 import { signInUser } from '../api/auth';
 
-export default function SignIn(user) {
+export default function SignIn({ user }) {
   return (
     <>
       {user === null ? (

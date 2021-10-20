@@ -1,38 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import Navigation from '../components/Navigation';
+// import Routes from '../routes';
+import SignIn from '../views/SignIn';
 
 function Initialize() {
-  const [domWriting, setDomWriting] = useState('Nothing Here!');
+  const [user, setUser] = useState('Nothing Here!');
 
-  const handleClick = (e) => {
-    console.warn(`You clicked ${e.target.id}`);
-    setDomWriting(`You clicked ${e.target.id}! Check the Console!`);
-  };
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((authed) => {
+      if (authed) {
+        const userInfoObj = {
+          fullName: authed.displayName,
+          profileImage: authed.photURL,
+          uid: authed.uid,
+          user: authed.email.split('@')[0],
+        };
+        setUser(userInfoObj);
+      } else if (user || user === null) {
+        setUser(false);
+      }
+    });
+  }, []);
 
   return (
-    <div className="App">
-      <h2>INSIDE APP COMPONENT</h2>
-      <div>
-        <button
-          type="button"
-          id="this-button"
-          className="btn btn-info"
-          onClick={handleClick}
-        >
-          I am THIS button
-        </button>
-      </div>
-      <div>
-        <button
-          type="button"
-          id="that-button"
-          className="btn btn-primary mt-3"
-          onClick={handleClick}
-        >
-          I am THAT button
-        </button>
-      </div>
-      <h3>{domWriting}</h3>
-    </div>
+    <>
+      {
+        user ? (
+          <>
+            <Navigation />
+            <h1>YOU-DO-React</h1>
+          </>
+        ) : (
+          <SignIn user={user} />
+        )
+        }
+    </>
   );
 }
 
