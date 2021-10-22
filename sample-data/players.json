@@ -1,0 +1,43 @@
+{
+  "-Mm__dokA02h5ofjrK4s": {
+    "firebaseKey" : "-Mm__dokA02h5ofjrK4s",
+    "imageURL": "https://i.ibb.co/ySS3Kjh/Sadio.png",
+    "name": "Sadio Mane",
+    "number" : 10,
+    "position": "Attacker",
+    "udi": ""
+    
+},
+"-Mm_aTqpX5mOn2aOe0Yi": {
+  "firebaseKey" : "-Mm_aTqpX5mOn2aOe0Yi",
+  "imageURL": "https://i.ibb.co/GT7dtZW/Alisson-Becker.png",
+  "name": "Alisson Becker",
+  "number" : 1,
+  "position": "Defender",
+  "udi": ""
+},
+"-Mm_bFvB2_xK0OEq_Mmj": {
+  "firebaseKey" : "-Mm_bFvB2_xK0OEq_Mmj",
+  "imageURL": "https://i.ibb.co/TRw7CVD/Virgil-Van-Dijk.png",
+  "name": "Virgil Van Dijk",
+  "number" : 4,
+  "position": "Defender",
+  "udi": ""
+},
+"-Mm_bI9hknXcFG1mweWW": {
+  "firebaseKey" : "-Mm_bI9hknXcFG1mweWW",
+  "imageURL": "https://i.ibb.co/vdbnNSg/Jordan-Henderson.png",
+  "name": "Jordan Henderson",
+  "number" : 14,
+  "position": "Midfielder",
+  "udi": ""
+},
+"-Mm_bL0JBqGu7CzV8Ecv": {
+  "firebaseKey" : "-Mm_bL0JBqGu7CzV8Ecv",
+  "imageURL": "https://i.ibb.co/sWyG1F6/Mohamed-Salah.png",
+  "name": "Mohammed Salah",
+  "number" : 11,
+  "position": "Attacker",
+  "udi": ""
+}
+}
