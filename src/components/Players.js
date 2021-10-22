@@ -7,47 +7,58 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
-  Button,    
+  Button,
 }
-from 'reactstrap';
+  from 'reactstrap';
 import { deletePlayer, updatePlayer } from '../api/data/playerData';
 
-export default function Players({ player, setPlayers, setEditItem}) {
+export default function Players({ player, setPlayers, setEditItem }) {
   const handleClick = (method) => {
     if (method === 'delete') {
       deletePlayer(player.firebaseKey).then(setPlayers);
     } else {
-      updatePlayer().then(setPlayers)
+      updatePlayer(player).then(setPlayers);
     }
   };
 
- return (
+  return (
     <div>
       <Card>
-        <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+        <CardImg top width="100%" src={player.imageUrl} alt={player.name} />
         <CardBody>
-          <CardTitle tag="h5">Card title</CardTitle>
-          <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
-          <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-          <Button>Edit</Button>
-          <Button onClick={() => handleClick('delete')}
-          className="btn btn-danger"
-          type="button">Delete
+          <CardTitle tag="h5">{player.name}</CardTitle>
+          <CardSubtitle tag="h6" className="mb-2 text-muted">{player.number}</CardSubtitle>
+          <CardText>{player.position}</CardText>
+          <Button
+            onClick={() => setEditItem('delete')}
+            className="btn btn-danger"
+            type="button"
+          >Edit
+          </Button>
+          <Button
+            onClick={() => handleClick('delete')}
+            className="btn btn-danger"
+            type="button"
+          >Delete
           </Button>
         </CardBody>
       </Card>
     </div>
- )  
+  );
 }
 
 Players.propTypes = {
-    player: PropTypes.shape({
+  player: PropTypes.shape({
     name: PropTypes.string,
-    complete: PropTypes.bool,
+    imageUrl: PropTypes.string,
+    position: PropTypes.string,
+    number: PropTypes.number,
     date: PropTypes.string,
     firebaseKey: PropTypes.string,
     uid: PropTypes.string,
-    }).isRequired,
-    setPlayers: PropTypes.func.isRequired,
-    setEditItem: PropTypes.func.isRequired,
+  }).isRequired,
+  setPlayers: PropTypes.func.isRequired,
+  setEditItem: PropTypes.func,
 };
+
+Players.defaultProps = { setEditItem: () => {} };
