@@ -5,8 +5,6 @@ import PlayerForm from '../components/PlayerForm';
 export default function New({
   player, setPlayers, setEditPlayer, uid,
 }) {
-  // const [editPlayer, setEditPlayer] = useState([]);
-
   return (
     <>
       <h1>Add A Player</h1>
