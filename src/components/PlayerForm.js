@@ -24,10 +24,8 @@ export default function PlayerForm({
         name: player.name,
         firebaseKey: player.firebaseKey,
         position: player.position,
-        date: player.date,
-        image: player.imageUrl,
-        id: player.id,
-        uid,
+        imageUrl: player.imageUrl,
+        uid: player.uid,
       });
     }
   }, [player]);
@@ -138,12 +136,10 @@ PlayerForm.propTypes = {
     position: PropTypes.string,
     imageUrl: PropTypes.string,
     uid: PropTypes.string,
-    date: PropTypes.string,
-    id: PropTypes.string,
   }),
   setPlayers: PropTypes.func.isRequired,
   setEditPlayer: PropTypes.func.isRequired,
-  uid: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+}).isRequired,
 };
-
-PlayerForm.defaultProps = { player: {} };

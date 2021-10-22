@@ -9,7 +9,7 @@ import SignIn from '../views/SignIn';
 function Initialize() {
   const [players, setPlayers] = useState([]);
   const [editItem, setEditItem] = useState({});
-  const [user, setUser] = useState('Nothing Here!');
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((authed) => {
@@ -40,6 +40,7 @@ function Initialize() {
               setPlayers={setPlayers}
               player={editItem}
               setEditItem={setEditItem}
+              user={user}
             />;
           </>
         ) : (

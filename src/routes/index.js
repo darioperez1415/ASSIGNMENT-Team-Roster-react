@@ -10,7 +10,7 @@ export default function Routes({
   player,
   setPlayers,
   setEditPlayer,
-  uid,
+  user,
 }) {
   return (
     <div>
@@ -21,8 +21,10 @@ export default function Routes({
           component={() => (
             <Team
               players={players}
+              player={player}
               setPlayers={setPlayers}
               setEditPlayer={setEditPlayer}
+              user={user}
             />
           )}
         />
@@ -31,10 +33,11 @@ export default function Routes({
           path="/New"
           component={() => (
             <New
+              players={players}
               player={player}
               setPlayers={setPlayers}
               setEditPlayer={setEditPlayer}
-              uid={uid}
+              user={user}
             />
           )}
         />
@@ -43,10 +46,11 @@ export default function Routes({
           path="/"
           component={() => (
             <Home
+              players={players}
               player={player}
               setPlayers={setPlayers}
               setEditPlayer={setEditPlayer}
-              uid={uid}
+              user={user}
             />
           )}
         />
@@ -67,7 +71,7 @@ Routes.propTypes = {
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
   setPlayers: PropTypes.func.isRequired,
   setEditPlayer: PropTypes.func.isRequired,
-  uid: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+}).isRequired,
 };
-
-Routes.defaultProps = { player: {} };
