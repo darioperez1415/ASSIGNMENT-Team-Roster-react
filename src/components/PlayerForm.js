@@ -33,7 +33,7 @@ export default function PlayerForm({
   }, [player]);
 
   const restForm = () => {
-    setFormInput(initialState);
+    setFormInput({ ...initialState });
     setEditPlayer({});
   };
 
