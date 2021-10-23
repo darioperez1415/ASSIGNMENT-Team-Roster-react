@@ -14,13 +14,6 @@ export default function Navigation() {
           type="button"
           className="btn btn-light border border-dark"
         >
-          Home
-        </button>
-        <button
-          onClick={() => history.push('/team')}
-          type="button"
-          className="btn btn-light border border-dark"
-        >
           Team
         </button>
         <button
@@ -28,7 +21,7 @@ export default function Navigation() {
           type="button"
           className="btn btn-light border border-dark"
         >
-          New
+          New Player
         </button>
         <button
           onClick={signOutUser}

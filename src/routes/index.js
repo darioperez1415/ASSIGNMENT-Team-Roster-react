@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Team from '../views/Team';
 import New from '../views/New';
-import Home from '../views/Home';
 
 export default function Routes({
   players,
@@ -17,14 +16,13 @@ export default function Routes({
       <Switch>
         <Route
           exact
-          path="/Team"
+          path="/"
           component={() => (
             <Team
+              user={user}
               players={players}
-              player={player}
               setPlayers={setPlayers}
               setEditPlayer={setEditPlayer}
-              user={user}
             />
           )}
         />
@@ -33,19 +31,6 @@ export default function Routes({
           path="/New"
           component={() => (
             <New
-              players={players}
-              player={player}
-              setPlayers={setPlayers}
-              setEditPlayer={setEditPlayer}
-              user={user}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/"
-          component={() => (
-            <Home
               players={players}
               player={player}
               setPlayers={setPlayers}
@@ -67,11 +52,11 @@ Routes.propTypes = {
     position: PropTypes.string,
     imageUrl: PropTypes.string,
     uid: PropTypes.string,
-  }),
+  }).isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
   setPlayers: PropTypes.func.isRequired,
   setEditPlayer: PropTypes.func.isRequired,
   user: PropTypes.shape({
     uid: PropTypes.string,
-}).isRequired,
+  }).isRequired,
 };

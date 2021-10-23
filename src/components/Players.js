@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardImg,
@@ -10,16 +11,33 @@ import {
   Button,
 }
   from 'reactstrap';
-import { deletePlayer, updatePlayer } from '../api/data/playerData';
+import { deletePlayer, getPlayers } from '../api/data/playerData';
 
-export default function Players({ player, setPlayers, setEditItem }) {
+export default function Players({
+  player, setPlayers, setEditItem, user,
+}) {
+  const history = useHistory();
+
   const handleClick = (method) => {
     if (method === 'delete') {
-      deletePlayer(player.firebaseKey).then(setPlayers);
-    } else {
-      updatePlayer(player).then(setPlayers);
+      deletePlayer(player.firebaseKey, player.uid).then((playerArray) => {
+        setPlayers(playerArray);
+      });
+    } else if (method === 'edit') {
+      setPlayers(player);
+      history.push('/New');
     }
   };
+
+  useEffect(() => {
+    let isMounted = true;
+    getPlayers(user.uid).then((playerArray) => {
+      if (isMounted) setPlayers(playerArray);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div>
@@ -30,7 +48,7 @@ export default function Players({ player, setPlayers, setEditItem }) {
           <CardSubtitle tag="h6" className="mb-2 text-muted">{player.number}</CardSubtitle>
           <CardText>{player.position}</CardText>
           <Button
-            onClick={() => setEditItem('delete')}
+            onClick={() => setEditItem('edit')}
             className="btn btn-danger"
             type="button"
           >Edit
@@ -59,6 +77,9 @@ Players.propTypes = {
   }).isRequired,
   setPlayers: PropTypes.func.isRequired,
   setEditItem: PropTypes.func,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+  }).isRequired,
 };
 
 Players.defaultProps = { setEditItem: () => {} };
