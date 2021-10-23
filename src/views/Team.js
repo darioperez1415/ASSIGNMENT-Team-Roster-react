@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Players from '../components/Players';
 
 export default function Team({
-  players, setPlayers, setEditPlayer, user,
+  players, setPlayers, setEditPlayers,
 }) {
   return (
     <>
@@ -11,11 +11,9 @@ export default function Team({
       {players.map((player) => (
         <Players
           key={player.firebaseKey}
-          players={players}
           player={player}
-          setEditPlayer={setEditPlayer}
+          setEditPlayers={setEditPlayers}
           setPlayers={setPlayers}
-          user={user}
         />
       ))}
     </>
@@ -25,10 +23,5 @@ export default function Team({
 Team.propTypes = {
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
   setPlayers: PropTypes.func.isRequired,
-  setEditPlayer: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    uid: PropTypes.string,
-  }),
+  setEditPlayers: PropTypes.func.isRequired,
 };
-
-Team.defaultProps = { user: {} };

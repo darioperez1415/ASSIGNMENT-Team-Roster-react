@@ -9,7 +9,7 @@ import SignIn from '../views/SignIn';
 function Initialize() {
   const [user, setUser] = useState(null);
   const [players, setPlayers] = useState([]);
-  const [editItem, setEditItem] = useState({});
+  const [editPlayers, setEditPlayers] = useState({});
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((authed) => {
@@ -21,7 +21,7 @@ function Initialize() {
           user: authed.email.split('@')[0],
         };
         setUser(userInfoObj);
-        getPlayers().then(setPlayers);
+        getPlayers(userInfoObj.uid).then(setPlayers);
       } else if (user || user === null) {
         setUser(false);
       }
@@ -37,9 +37,9 @@ function Initialize() {
             <h1>Liverpool FC</h1>
             <Routes
               players={players}
-              player={editItem}
+              player={editPlayers}
               setPlayers={setPlayers}
-              setEditItem={setEditItem}
+              setEditPlayers={setEditPlayers}
               user={user}
             />;
           </>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PlayerForm from '../components/PlayerForm';
 
 export default function New({
-  player, setPlayers, setEditPlayer, uid,
+  player, setPlayers, setEditPlayers, user,
 }) {
   return (
     <>
@@ -11,8 +11,8 @@ export default function New({
       <PlayerForm
         player={player}
         setPlayers={setPlayers}
-        setEditPlayer={setEditPlayer}
-        uid={uid}
+        setEditPlayers={setEditPlayers}
+        user={user}
       />
     </>
   );
@@ -28,8 +28,10 @@ New.propTypes = {
     uid: PropTypes.string,
   }),
   setPlayers: PropTypes.func.isRequired,
-  setEditPlayer: PropTypes.func.isRequired,
-  uid: PropTypes.string.isRequired,
+  setEditPlayers: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+  }).isRequired,
 };
 
 New.defaultProps = { player: {} };

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router';
+// import { useHistory } from 'react-router';
 import {
   Card,
   CardImg,
@@ -11,33 +11,30 @@ import {
   Button,
 }
   from 'reactstrap';
-import { deletePlayer, getPlayers } from '../api/data/playerData';
+import { deletePlayer, getPlayers, updatePlayer } from '../api/data/playerData';
 
 export default function Players({
-  player, setPlayers, setEditItem, user,
+  player, setPlayers, setEditPlayers,
 }) {
-  const history = useHistory();
+  // const history = useHistory();
 
   const handleClick = (method) => {
     if (method === 'delete') {
-      deletePlayer(player.firebaseKey, player.uid).then((playerArray) => {
-        setPlayers(playerArray);
-      });
-    } else if (method === 'update') {
-      setPlayers(player);
-      history.push('/New');
+      deletePlayer(player.firebaseKey).then(() => getPlayers(player.uid).then(setPlayers));
+    } else {
+      updatePlayer(player.uid).then(setPlayers);
     }
   };
 
-  useEffect(() => {
-    let isMounted = true;
-    getPlayers(user.uid).then((playerArray) => {
-      if (isMounted) setPlayers(playerArray);
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  // useEffect(() => {
+  //   let isMounted = true;
+  //   getPlayers(user.uid).then((playerArray) => {
+  //     if (isMounted) setPlayers(playerArray);
+  //   });
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, []);
 
   return (
     <div>
@@ -48,7 +45,7 @@ export default function Players({
           <CardSubtitle tag="h6" className="mb-2 text-muted">{player.number}</CardSubtitle>
           <CardText>{player.position}</CardText>
           <Button
-            onClick={() => setEditItem('update')}
+            onClick={() => setEditPlayers('edit')}
             className="btn btn-danger"
             type="button"
           >Edit
@@ -57,6 +54,7 @@ export default function Players({
             onClick={() => handleClick('delete')}
             className="btn btn-danger"
             type="button"
+            id="delete"
           >Delete
           </Button>
         </CardBody>
@@ -76,10 +74,7 @@ Players.propTypes = {
     uid: PropTypes.string,
   }).isRequired,
   setPlayers: PropTypes.func.isRequired,
-  setEditItem: PropTypes.func,
-  user: PropTypes.shape({
-    uid: PropTypes.string,
-  }).isRequired,
+  setEditPlayers: PropTypes.func,
 };
 
-Players.defaultProps = { setEditItem: () => {} };
+Players.defaultProps = { setEditPlayers: () => {} };

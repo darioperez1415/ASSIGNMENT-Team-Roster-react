@@ -3,9 +3,9 @@ import firebaseConfig from '../apiKeys';
 
 const dbUrl = firebaseConfig.databaseURL;
 
-const getPlayers = () => new Promise((resolve, reject) => {
+const getPlayers = (uid) => new Promise((resolve, reject) => {
   axios
-    .get(`${dbUrl}/players.json`)
+    .get(`${dbUrl}/players.json?orderBy="uid"&equalTo="${uid}"`)
     .then((response) => resolve(Object.values(response.data)))
     .catch(reject);
 });
@@ -18,22 +18,24 @@ const createPlayer = (obj) => new Promise((resolve, reject) => {
       axios
         .patch(`${dbUrl}/players/${firebaseKey}.json`, { firebaseKey })
         .then(() => {
-          getPlayers().then(resolve);
+          getPlayers(obj.uid).then(resolve);
         });
     })
     .catch(reject);
 });
 
-const updatePlayer = (playerObj) => new Promise((resolve, reject) => {
-  axios.patch(`${dbUrl}/players/${playerObj.firebaseKey}.json`, playerObj)
-    .then(() => getPlayers().then(resolve))
-    .catch(reject);
+const updatePlayer = (playerObj, uid) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/player/${playerObj.firebaseKey}.json`, playerObj).then(() => {
+    getPlayers(uid).then(resolve);
+  }).catch(reject);
 });
 
-const deletePlayer = (firebaseKey) => new Promise((resolve, reject) => {
+const deletePlayer = (firebaseKey, uid) => new Promise((resolve, reject) => {
   axios
     .delete(`${dbUrl}/players/${firebaseKey}.json`)
-    .then(() => getPlayers().then(resolve))
+    .then(() => {
+      getPlayers(uid).then(resolve);
+    })
     .catch(reject);
 });
 
