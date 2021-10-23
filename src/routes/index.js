@@ -8,7 +8,7 @@ export default function Routes({
   players,
   player,
   setPlayers,
-  setEditPlayer,
+  setEditPlayers,
   user,
 }) {
   return (
@@ -19,10 +19,9 @@ export default function Routes({
           path="/"
           component={() => (
             <Team
-              user={user}
               players={players}
               setPlayers={setPlayers}
-              setEditPlayer={setEditPlayer}
+              setEditPlayers={setEditPlayers}
             />
           )}
         />
@@ -34,7 +33,7 @@ export default function Routes({
               players={players}
               player={player}
               setPlayers={setPlayers}
-              setEditPlayer={setEditPlayer}
+              setEditPlayers={setEditPlayers}
               user={user}
             />
           )}
@@ -55,7 +54,7 @@ Routes.propTypes = {
   }).isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
   setPlayers: PropTypes.func.isRequired,
-  setEditPlayer: PropTypes.func.isRequired,
+  setEditPlayers: PropTypes.func.isRequired,
   user: PropTypes.shape({
     uid: PropTypes.string,
   }).isRequired,
