@@ -7,16 +7,16 @@ import Routes from '../routes';
 import SignIn from '../views/SignIn';
 
 function Initialize() {
+  const [user, setUser] = useState(null);
   const [players, setPlayers] = useState([]);
   const [editItem, setEditItem] = useState({});
-  const [user, setUser] = useState('Nothing Here!');
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((authed) => {
       if (authed) {
         const userInfoObj = {
           fullName: authed.displayName,
-          profileImage: authed.photURL,
+          profileImage: authed.photoURL,
           uid: authed.uid,
           user: authed.email.split('@')[0],
         };
@@ -33,13 +33,14 @@ function Initialize() {
       {
         user ? (
           <>
-            <Navigation />
+            <Navigation user={user} />
             <h1>Liverpool FC</h1>
             <Routes
               players={players}
-              setPlayers={setPlayers}
               player={editItem}
+              setPlayers={setPlayers}
               setEditItem={setEditItem}
+              user={user}
             />;
           </>
         ) : (

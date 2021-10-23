@@ -1,28 +1,22 @@
 import axios from 'axios';
 import firebaseConfig from '../apiKeys';
 
-const baseURL = firebaseConfig.databaseURL;
+const dbUrl = firebaseConfig.databaseURL;
 
 const getPlayers = () => new Promise((resolve, reject) => {
   axios
-    .get(`${baseURL}/players.json`)
-    .then((response) => {
-      if (response.data) {
-        resolve(Object.values(response.data));
-      } else {
-        resolve([]);
-      }
-    })
+    .get(`${dbUrl}/players.json`)
+    .then((response) => resolve(Object.values(response.data)))
     .catch(reject);
 });
 
 const createPlayer = (obj) => new Promise((resolve, reject) => {
   axios
-    .post(`${baseURL}/players.json`, obj)
+    .post(`${dbUrl}/players.json`, obj)
     .then((response) => {
       const firebaseKey = response.data.name;
       axios
-        .patch(`${baseURL}/palyers/${firebaseKey}.json`, { firebaseKey })
+        .patch(`${dbUrl}/players/${firebaseKey}.json`, { firebaseKey })
         .then(() => {
           getPlayers().then(resolve);
         });
@@ -30,15 +24,15 @@ const createPlayer = (obj) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const deletePlayer = (firebaseKey) => new Promise((resolve, reject) => {
-  axios.delete(`${baseURL}/players${firebaseKey}.json`)
+const updatePlayer = (playerObj) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/players/${playerObj.firebaseKey}.json`, playerObj)
     .then(() => getPlayers().then(resolve))
     .catch(reject);
 });
 
-const updatePlayer = (playerObj) => new Promise((resolve, reject) => {
+const deletePlayer = (firebaseKey) => new Promise((resolve, reject) => {
   axios
-    .patch(`${baseURL}/players/${playerObj.firebaseKey}.json`, playerObj)
+    .delete(`${dbUrl}/players/${firebaseKey}.json`)
     .then(() => getPlayers().then(resolve))
     .catch(reject);
 });
@@ -46,6 +40,6 @@ const updatePlayer = (playerObj) => new Promise((resolve, reject) => {
 export {
   getPlayers,
   createPlayer,
-  deletePlayer,
   updatePlayer,
+  deletePlayer,
 };
