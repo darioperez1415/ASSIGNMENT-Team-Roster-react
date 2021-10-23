@@ -23,7 +23,7 @@ export default function Players({
       deletePlayer(player.firebaseKey, player.uid).then((playerArray) => {
         setPlayers(playerArray);
       });
-    } else if (method === 'edit') {
+    } else if (method === 'update') {
       setPlayers(player);
       history.push('/New');
     }
@@ -48,7 +48,7 @@ export default function Players({
           <CardSubtitle tag="h6" className="mb-2 text-muted">{player.number}</CardSubtitle>
           <CardText>{player.position}</CardText>
           <Button
-            onClick={() => setEditItem('edit')}
+            onClick={() => setEditItem('update')}
             className="btn btn-danger"
             type="button"
           >Edit

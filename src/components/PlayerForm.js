@@ -1,30 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { createPlayer, updatePlayer } from '../api/data/playerData';
 
 const initialState = {
-  id: '',
-  imageURL: '',
   name: '',
   position: '',
-  udi: '',
+  imageURL: '',
+  number: '',
 };
 
 export default function PlayerForm({
-  player, setPlayers, setEditPlayer, uid,
+  player, setPlayers, setEditPlayer,
 }) {
   const [formInput, setFormInput] = useState(initialState);
+  const history = useHistory();
   useEffect(() => {
+    let isMounted = true;
     if (player.firebaseKey) {
-      setFormInput({
-        name: player.name,
-        firebaseKey: player.firebaseKey,
-        position: player.position,
-        imageUrl: player.imageUrl,
-        number: player.number,
-        uid,
-      });
+      if (isMounted) {
+        setFormInput({
+          name: player.name,
+          firebaseKey: player.firebaseKey,
+          imageURL: player.imageURL,
+          position: player.position,
+          uid: player.uid,
+        });
+      }
     }
+    return () => {
+      isMounted = false;
+    };
   }, [player]);
 
   const handleChange = (e) => {
@@ -34,8 +40,8 @@ export default function PlayerForm({
     }));
   };
   const restForm = () => {
-    setFormInput({ ...initialState });
-    setEditPlayer({});
+    setFormInput(initialState);
+    setEditPlayer({ initialState });
   };
 
   const handleSubmit = (e) => {
@@ -44,11 +50,13 @@ export default function PlayerForm({
       updatePlayer(formInput).then((players) => {
         setPlayers(players);
         restForm();
+        history.push('/team');
       });
     } else {
       createPlayer(formInput).then((players) => {
         setPlayers(players);
         restForm();
+        history.push('/team');
       });
     }
   };
@@ -65,7 +73,7 @@ export default function PlayerForm({
             name="name"
             id="name"
             placeholder="Enter player name"
-            value={formInput.name}
+            value={formInput.name || ''}
             onChange={handleChange}
             required
           />
@@ -76,10 +84,10 @@ export default function PlayerForm({
           <input
             className="form-control form-control-lg me-1"
             type="url"
-            name="imageUrl"
-            id="imageUrl"
+            name="imageURL"
+            id="imageURL"
             placeholder="Enter Image Url"
-            value={formInput.imageUrl}
+            value={formInput.imageURL || ''}
             onChange={handleChange}
             required
           />
@@ -89,11 +97,11 @@ export default function PlayerForm({
         >
           <input
             className="form-control form-control-lg me-1"
-            type={Number}
+            type="number"
             name="number"
             id="number"
             placeholder="Enter player number"
-            value={formInput.number}
+            value={formInput.number || ''}
             onChange={handleChange}
             required
           />
@@ -107,7 +115,7 @@ export default function PlayerForm({
             name="position"
             id="position"
             placeholder="Position: Att, Mid,Def"
-            value={formInput.position}
+            value={formInput.position || ''}
             onChange={handleChange}
             required
           />
@@ -128,12 +136,13 @@ PlayerForm.propTypes = {
     number: PropTypes.number,
     firebaseKey: PropTypes.string,
     position: PropTypes.string,
-    imageUrl: PropTypes.string,
-    uid: PropTypes.string,
+    imageURL: PropTypes.string,
   }),
+    user: PropTypes.shape({
+    uid: PropTypes.string,
+  }).isRequired,
   setPlayers: PropTypes.func.isRequired,
   setEditPlayer: PropTypes.func.isRequired,
-  uid: PropTypes.string.isRequired,
 };
 
 PlayerForm.defaultProps = { player: {} };

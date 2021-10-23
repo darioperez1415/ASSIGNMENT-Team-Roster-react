@@ -16,7 +16,7 @@ function Initialize() {
       if (authed) {
         const userInfoObj = {
           fullName: authed.displayName,
-          profileImage: authed.photURL,
+          profileImage: authed.photoURL,
           uid: authed.uid,
           user: authed.email.split('@')[0],
         };
@@ -33,7 +33,7 @@ function Initialize() {
       {
         user ? (
           <>
-            <Navigation />
+            <Navigation user={user} />
             <h1>Liverpool FC</h1>
             <Routes
               players={players}
