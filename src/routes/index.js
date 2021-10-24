@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Team from '../views/Team';
 import New from '../views/New';
+import Home from '../views/Home';
 
 export default function Routes({
   players,
@@ -36,6 +37,13 @@ export default function Routes({
               setEditPlayers={setEditPlayers}
               user={user}
             />
+          )}
+        />
+        <Route
+          exact
+          path="/Home"
+          component={() => (
+            <Home />
           )}
         />
       </Switch>

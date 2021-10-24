@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { useHistory } from 'react-router';
+import styled from 'styled-components';
 import {
   Card,
   CardImg,
@@ -13,11 +13,17 @@ import {
   from 'reactstrap';
 import { deletePlayer, getPlayers, updatePlayer } from '../api/data/playerData';
 
+const CardStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 1%;
+  margin: auto;
+
+`;
+
 export default function Players({
   player, setPlayers, setEditPlayers,
 }) {
-  // const history = useHistory();
-
   const handleClick = (method) => {
     if (method === 'delete') {
       deletePlayer(player.firebaseKey).then(() => getPlayers(player.uid).then(setPlayers));
@@ -26,27 +32,17 @@ export default function Players({
     }
   };
 
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   getPlayers(user.uid).then((playerArray) => {
-  //     if (isMounted) setPlayers(playerArray);
-  //   });
-  //   return () => {
-  //     isMounted = false;
-  //   };
-  // }, []);
-
   return (
-    <div>
+    <CardStyle>
       <Card>
-        <CardImg top width="100%" src={player.imageUrl} alt={player.name} />
+        <CardImg src={player.imageUrl} />
         <CardBody>
           <CardTitle tag="h5">{player.name}</CardTitle>
           <CardSubtitle tag="h6" className="mb-2 text-muted">{player.number}</CardSubtitle>
           <CardText>{player.position}</CardText>
           <Button
             onClick={() => setEditPlayers('edit')}
-            className="btn btn-danger"
+            className="btn btn-info"
             type="button"
           >Edit
           </Button>
@@ -59,7 +55,7 @@ export default function Players({
           </Button>
         </CardBody>
       </Card>
-    </div>
+    </CardStyle>
   );
 }
 

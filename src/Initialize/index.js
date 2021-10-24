@@ -34,7 +34,6 @@ function Initialize() {
         user ? (
           <>
             <Navigation user={user} />
-            <h1>Liverpool FC</h1>
             <Routes
               players={players}
               player={editPlayers}
