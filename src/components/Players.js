@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   Card,
@@ -21,9 +22,9 @@ const CardStyle = styled.div`
 
 `;
 
-export default function Players({
-  player, setPlayers, setEditPlayers,
-}) {
+export default function Players({ player, setPlayers, setEditPlayers }) {
+  const history = useHistory();
+
   const handleClick = (method) => {
     if (method === 'delete') {
       deletePlayer(player.firebaseKey).then(() => getPlayers(player.uid).then(setPlayers));
@@ -35,15 +36,17 @@ export default function Players({
   return (
     <CardStyle>
       <Card>
-        <CardImg src={player.imageUrl} />
+        <CardImg top width="100%" src={player.imageUrl} />
         <CardBody>
           <CardTitle tag="h5">{player.name}</CardTitle>
           <CardSubtitle tag="h6" className="mb-2 text-muted">{player.number}</CardSubtitle>
           <CardText>{player.position}</CardText>
           <Button
-            onClick={() => setEditPlayers('edit')}
             className="btn btn-info"
-            type="button"
+            onClick={() => {
+              setEditPlayers(player);
+              history.push('/new');
+            }}
           >Edit
           </Button>
           <Button
@@ -64,7 +67,7 @@ Players.propTypes = {
     name: PropTypes.string,
     imageUrl: PropTypes.string,
     position: PropTypes.string,
-    number: PropTypes.number,
+    number: PropTypes.string,
     date: PropTypes.string,
     firebaseKey: PropTypes.string,
     uid: PropTypes.string,
