@@ -1,21 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Players from '../components/Players';
 
-export default function Team({
-  players, setPlayers, setEditPlayers,
-}) {
+const TeamStyle = styled.div`
+  font-size: large;
+  text-shadow: 1em;
+  .h1, h1{
+    color:white;
+  }
+`;
+
+export default function Team({ players, setPlayers, setEditPlayers }) {
   return (
     <>
-      <h1>Roster</h1>
-      {players.map((player) => (
-        <Players
-          key={player.firebaseKey}
-          player={player}
-          setEditPlayers={setEditPlayers}
-          setPlayers={setPlayers}
-        />
-      ))}
+      <TeamStyle>
+        <h1>Roster</h1>
+        {players.map((player) => (
+          <Players
+            key={player.firebaseKey}
+            player={player}
+            setEditPlayers={setEditPlayers}
+            setPlayers={setPlayers}
+          />
+        ))}
+      </TeamStyle>
     </>
   );
 }

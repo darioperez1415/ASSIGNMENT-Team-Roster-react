@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import Navigation from '../components/Navigation';
-import { getPlayers } from '../api/data/playerData';
-import Routes from '../routes';
 import SignIn from '../views/SignIn';
+import Navigation from '../components/Navigation';
+import Routes from '../routes';
+import { getPlayers } from '../api/data/playerData';
 
 function Initialize() {
   const [user, setUser] = useState(null);
