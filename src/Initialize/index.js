@@ -33,7 +33,7 @@ function Initialize() {
       {
         user ? (
           <>
-            <Navigation user={user} />
+            <Navigation />
             <Routes
               players={players}
               player={editPlayers}

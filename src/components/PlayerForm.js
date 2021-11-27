@@ -19,25 +19,19 @@ export default function PlayerForm({
   setEditPlayers,
   user,
 }) {
-  const [formInput, setFormInput] = useState(initialState);
+  const [formInput, setFormInput] = useState({ ...initialState, uid: user.uid });
   const history = useHistory();
-
-  const resetForm = () => {
-    setFormInput({ ...initialState });
-    setEditPlayers({ initialState });
-  };
 
   useEffect(() => {
     let isMounted = true;
-    if (player.firebaseKey) {
-      if (isMounted) {
+    if (isMounted) {
+      if (player.firebaseKey) {
         setFormInput({
           name: player.name,
           firebaseKey: player.firebaseKey,
           imageURL: player.imageURL,
           position: player.position,
-          number: player.number,
-          uid: player.uid,
+          uid: user.uid,
         });
       }
     }
@@ -46,6 +40,16 @@ export default function PlayerForm({
     };
   }, [player]);
 
+  const handleChange = (e) => {
+    setFormInput((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const resetForm = () => {
+    setFormInput({ ...initialState });
+    setEditPlayers({});
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (player.firebaseKey) {
@@ -55,38 +59,13 @@ export default function PlayerForm({
         history.push('/team');
       });
     } else {
-      createPlayer({ ...formInput, uid: user.uid }).then((players) => {
+      createPlayer({ ...formInput }).then((players) => {
         setPlayers(players);
         resetForm();
         history.push('/team');
       });
     }
   };
-  const handleChange = (e) => {
-    setFormInput((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-  useEffect(() => {
-    let isMounted = true;
-    if (player.firebaseKey) {
-      if (isMounted) {
-        setFormInput({
-          name: player.name,
-          firebaseKey: player.firebaseKey,
-          imageURL: player.imageURL,
-          position: player.position,
-          number: player.number,
-          uid: player.uid,
-        });
-      }
-    }
-    return () => {
-      isMounted = false;
-    };
-  }, [player]);
-
   return (
     <FormStyle>
       <form onSubmit={handleSubmit}>

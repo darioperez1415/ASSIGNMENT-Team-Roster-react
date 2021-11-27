@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { deletePlayer, getPlayers } from '../api/data/playerData';
+import styled from 'styled-components';
+import { deletePlayer } from '../api/data/playerData';
 
 const PlayersStyle = styled.div`
   margin-left: 10px;
@@ -10,9 +10,9 @@ const PlayersStyle = styled.div`
   flex-wrap: wrap;
   flex-direction: row;
   flex-wrap: wrap;
-div.card-body {
-  align-items: center;
-}
+  div.card-body {
+    align-items: center;
+  }
   img {
     width: 200px;
     height: 200px;
@@ -28,29 +28,18 @@ const ButtonStyle = styled.div`
   justify-content: center;
 `;
 
-export default function Players({
-  player, setPlayers, setEditPlayer, user,
-}) {
+export default function Players({ player, setPlayers, setEditPlayer }) {
   const history = useHistory();
 
   const handleClick = (method) => {
     if (method === 'delete') {
-      deletePlayer(player.firebaseKey, player.uid).then(setPlayers);
-      history.push('/team');
-    } else if (method === 'update') {
+      deletePlayer(player).then(setPlayers);
+    }
+    if (method === 'edit') {
       setEditPlayer(player);
-      history.push('/new');
+      history.push('/New');
     }
   };
-  useEffect(() => {
-    let isMounted = true;
-    getPlayers(user.uid).then((playerArray) => {
-      if (isMounted) setPlayers(playerArray);
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
   return (
     <>
       <PlayersStyle>
@@ -63,10 +52,9 @@ export default function Players({
             <p className="card-number">Number{player.number}</p>
             <ButtonStyle>
               <button
+                onClick={() => setEditPlayer(player)}
+                className="btn btn-info"
                 type="button"
-                className="btn btn-primary"
-                color="primary"
-                onClick={() => handleClick('update')}
               >
                 Edit
               </button>
@@ -88,15 +76,12 @@ export default function Players({
 Players.propTypes = {
   player: PropTypes.shape({
     name: PropTypes.string,
-    number: PropTypes.number,
-    firebaseKey: PropTypes.string,
-    position: PropTypes.string,
     imageURL: PropTypes.string,
+    position: PropTypes.string,
+    number: PropTypes.number,
     uid: PropTypes.string,
+    firebaseKey: PropTypes.string,
   }).isRequired,
   setPlayers: PropTypes.func.isRequired,
   setEditPlayer: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    uid: PropTypes.string,
-  }).isRequired,
 };
