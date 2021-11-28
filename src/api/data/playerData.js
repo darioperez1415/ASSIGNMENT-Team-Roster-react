@@ -3,9 +3,9 @@ import firebaseConfig from '../apiKeys';
 
 const dbUrl = firebaseConfig.databaseURL;
 
-const getPlayers = (uid) => new Promise((resolve, reject) => {
+const getPlayers = (user) => new Promise((resolve, reject) => {
   axios
-    .get(`${dbUrl}/players.json?orderBy="uid"&equalTo="${uid}"`)
+    .get(`${dbUrl}/players.json?orderBy="uid"&equalTo="${user}"`)
     .then((response) => resolve(Object.values(response.data)))
     .catch(reject);
 });
