@@ -1,7 +1,6 @@
 # Team Roster
 For this project you will be building a team roster for a sports team.This app looks at Liverpool FC players and the user is able to list their favorite players.
 
-src =https://i.ibb.co/bXrmpWJ/Liv.png
 ## Features
 - Authentication - Users can login and logout of the application using Google.
 - Routing - Used to navigate between the Home page,Team, and New Player through buttons.
