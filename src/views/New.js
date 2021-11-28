@@ -1,19 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import PlayerForm from '../components/PlayerForm';
+
+const NewStyle = styled.div`
+  font-size: large;
+  color: white;
+  text-shadow:1em;
+`;
 
 export default function New({
   player, setPlayers, setEditPlayers, user,
 }) {
   return (
     <>
-      <h1>Add A Player</h1>
-      <PlayerForm
-        player={player}
-        setPlayers={setPlayers}
-        setEditPlayers={setEditPlayers}
-        user={user}
-      />
+      <NewStyle>
+        <h1>Add A Player</h1>
+        <PlayerForm
+          player={player}
+          setPlayers={setPlayers}
+          setEditPlayers={setEditPlayers}
+          user={user}
+        />
+      </NewStyle>
     </>
   );
 }

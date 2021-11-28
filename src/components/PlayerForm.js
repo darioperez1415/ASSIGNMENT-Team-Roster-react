@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { createPlayer, updatePlayer } from '../api/data/playerData';
 
-const FormStyle = styled.div`
-`;
+const FormStyle = styled.div``;
+
 const initialState = {
   name: '',
   position: '',
@@ -14,21 +15,25 @@ const initialState = {
 };
 
 export default function PlayerForm({
-  player, setPlayers, setEditPlayers, user,
+  player,
+  setPlayers,
+  setEditPlayers,
+  user,
 }) {
   const [formInput, setFormInput] = useState({ ...initialState, uid: user.uid });
-  // const history = useHistory();
+  const history = useHistory();
+
   useEffect(() => {
     let isMounted = true;
-    if (player.firebaseKey) {
-      if (isMounted) {
+    if (isMounted) {
+      if (player.firebaseKey) {
         setFormInput({
           name: player.name,
           firebaseKey: player.firebaseKey,
+          number: player.number,
           imageURL: player.imageURL,
           position: player.position,
-          number: player.number,
-          uid: player.uid,
+          uid: user.uid,
         });
       }
     }
@@ -45,31 +50,29 @@ export default function PlayerForm({
   };
   const resetForm = () => {
     setFormInput({ ...initialState });
-    setEditPlayers({});
+    setEditPlayers(initialState);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (player.firebaseKey) {
       updatePlayer(formInput).then((players) => {
         setPlayers(players);
         resetForm();
-        // history.push('/team');
+        history.push('/new');
       });
     } else {
       createPlayer({ ...formInput }).then((players) => {
         setPlayers(players);
         resetForm();
-        // history.push('/team');
+        history.push('/team');
       });
     }
   };
-
   return (
     <FormStyle>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="name">
+          <label htmlFor="name" sm={2}>
             <input
               className="form-control form-control-lg me-1"
               type="text"
@@ -83,7 +86,7 @@ export default function PlayerForm({
           </label>
         </div>
         <div>
-          <label htmlFor="imageUrl">
+          <label htmlFor="imageUrl" sm={2}>
             <input
               className="form-control form-control-lg me-1"
               type="url"
@@ -97,10 +100,10 @@ export default function PlayerForm({
           </label>
         </div>
         <div>
-          <label htmlFor="number">
+          <label htmlFor="number" sm={2}>
             <input
               className="form-control form-control-lg me-1"
-              type="number"
+              type="text"
               name="number"
               id="number"
               placeholder="Enter player number"
@@ -111,7 +114,7 @@ export default function PlayerForm({
           </label>
         </div>
         <div>
-          <label htmlFor="position">
+          <label htmlFor="position" sm={2}>
             <input
               className="form-control form-control-lg me-1"
               type="text"
@@ -126,7 +129,7 @@ export default function PlayerForm({
         </div>
         <span className="input-group-btn">
           <button className="btn btn-success submit" type="submit">
-            {player.firebaseKey ? 'Update' : 'submit'}
+            {player.firebaseKey ? 'update' : 'submit'}
           </button>
         </span>
       </form>

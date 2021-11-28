@@ -3,9 +3,9 @@ import firebaseConfig from '../apiKeys';
 
 const dbUrl = firebaseConfig.databaseURL;
 
-const getPlayers = (uid) => new Promise((resolve, reject) => {
+const getPlayers = (user) => new Promise((resolve, reject) => {
   axios
-    .get(`${dbUrl}/players.json?orderBy="uid"&equalTo="${uid}"`)
+    .get(`${dbUrl}/players.json?orderBy="uid"&equalTo="${user}"`)
     .then((response) => resolve(Object.values(response.data)))
     .catch(reject);
 });
@@ -24,24 +24,21 @@ const createPlayer = (obj) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updatePlayer = (playerObj, uid) => new Promise((resolve, reject) => {
-  axios.patch(`${dbUrl}/player/${playerObj.firebaseKey}.json`, playerObj).then(() => {
-    getPlayers(uid).then(resolve);
-  }).catch(reject);
+const updatePlayer = (player) => new Promise((resolve, reject) => {
+  axios
+    .patch(`${dbUrl}/players/${player.firebaseKey}.json`, player)
+    .then(() => getPlayers(player.uid).then(resolve))
+    .catch(reject);
 });
 
-const deletePlayer = (firebaseKey, uid) => new Promise((resolve, reject) => {
-  axios
-    .delete(`${dbUrl}/players/${firebaseKey}.json`)
+const deletePlayer = (playerObj) => new Promise((resolve, reject) => {
+  axios.delete(`${dbUrl}/players/${playerObj.firebaseKey}.json`)
     .then(() => {
-      getPlayers(uid).then(resolve);
+      getPlayers(playerObj.uid).then(resolve);
     })
     .catch(reject);
 });
 
 export {
-  getPlayers,
-  createPlayer,
-  updatePlayer,
-  deletePlayer,
+  getPlayers, createPlayer, deletePlayer, updatePlayer,
 };

@@ -6,8 +6,8 @@ import New from '../views/New';
 import Home from '../views/Home';
 
 export default function Routes({
-  players,
   player,
+  players,
   setPlayers,
   setEditPlayers,
   user,
@@ -23,6 +23,7 @@ export default function Routes({
               players={players}
               setPlayers={setPlayers}
               setEditPlayers={setEditPlayers}
+              user={user}
             />
           )}
         />
@@ -52,18 +53,20 @@ export default function Routes({
 }
 
 Routes.propTypes = {
-  player: PropTypes.shape({
-    name: PropTypes.string,
-    number: PropTypes.number,
-    firebaseKey: PropTypes.string,
-    position: PropTypes.string,
-    imageUrl: PropTypes.string,
-    uid: PropTypes.string,
-  }).isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
   setPlayers: PropTypes.func.isRequired,
   setEditPlayers: PropTypes.func.isRequired,
+  player: PropTypes.shape({
+    name: PropTypes.string,
+    firebaseKey: PropTypes.string,
+    position: PropTypes.string,
+    number: PropTypes.number,
+    imageURL: PropTypes.string,
+    uid: PropTypes.string,
+  }),
   user: PropTypes.shape({
     uid: PropTypes.string,
   }).isRequired,
 };
+
+Routes.defaultProps = { player: {} };
