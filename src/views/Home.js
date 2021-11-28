@@ -6,6 +6,7 @@ const WelcomeStyle = styled.div`
   color: white;
   text-shadow:1em;
   position:center;
+  background-color:darkgrey;
   flex:20%;
 `;
 
@@ -13,7 +14,7 @@ export default function Home() {
   return (
     <>
       <WelcomeStyle>
-        <div className="intro">
+        <div className="jumbotron text-center">
           <h1>Welcome to Liverpool FC Team Roster </h1>
           <p>
             Liverpool Football Club is a professional football club in

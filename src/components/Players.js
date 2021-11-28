@@ -6,10 +6,15 @@ import { deletePlayer } from '../api/data/playerData';
 
 const PlayersStyle = styled.div`
   margin-left: 10px;
-  display: flex;
+  width: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  margin: 10px;
+  padding-top: 40px;
+  display: block;
+  font-weight: bolder;
   flex-wrap: wrap;
   flex-direction: row;
-  flex-wrap: wrap;
   div.card-body {
     align-items: center;
   }
@@ -28,35 +33,38 @@ const ButtonStyle = styled.div`
   justify-content: center;
 `;
 
-export default function Players({ player, setPlayers, setEditPlayer }) {
+export default function Players({ player, setPlayers, setEditPlayers }) {
   const history = useHistory();
 
   const handleClick = (method) => {
     if (method === 'delete') {
       deletePlayer(player).then(setPlayers);
-    }
-    if (method === 'edit') {
-      setEditPlayer(player);
+    } else if (method === 'update') {
+      setEditPlayers(player);
       history.push('/New');
     }
   };
   return (
     <>
       <PlayersStyle>
-        <div className="card" style={{ width: '18rem', margin: '3px' }}>
-          <img alt={player.name} src={player.imageURL} />
+        <div className="card m-3" style={{ width: '18rem' }}>
+          <img
+            style={{ width: '18rem' }}
+            alt={player.name}
+            src={player.imageURL}
+          />
           <div className="card-body">
             <h4 className="card-title">{player.name}</h4>
             <hr />
-            <p className="card-text">Poition{player.position}</p>
-            <p className="card-number">Number{player.number}</p>
+            <p className="card-text">Poition: {player.position}</p>
+            <p>Number:{player.number}</p>
             <ButtonStyle>
               <button
-                onClick={() => setEditPlayer(player)}
-                className="btn btn-info"
                 type="button"
+                className="btn btn-info"
+                onClick={() => setEditPlayers('update')}
               >
-                Edit
+                Update
               </button>
               <button
                 type="button"
@@ -78,10 +86,10 @@ Players.propTypes = {
     name: PropTypes.string,
     imageURL: PropTypes.string,
     position: PropTypes.string,
-    number: PropTypes.number,
+    number: PropTypes.string,
     uid: PropTypes.string,
     firebaseKey: PropTypes.string,
   }).isRequired,
   setPlayers: PropTypes.func.isRequired,
-  setEditPlayer: PropTypes.func.isRequired,
+  setEditPlayers: PropTypes.func.isRequired,
 };

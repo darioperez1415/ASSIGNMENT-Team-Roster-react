@@ -30,7 +30,7 @@ export default function New({
 New.propTypes = {
   player: PropTypes.shape({
     name: PropTypes.string,
-    number: PropTypes.string,
+    number: PropTypes.number,
     firebaseKey: PropTypes.string,
     position: PropTypes.string,
     imageUrl: PropTypes.string,

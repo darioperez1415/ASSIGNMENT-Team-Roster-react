@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { createPlayer, updatePlayer } from '../api/data/playerData';
 
 const FormStyle = styled.div``;
+
 const initialState = {
   name: '',
   position: '',
@@ -29,6 +30,7 @@ export default function PlayerForm({
         setFormInput({
           name: player.name,
           firebaseKey: player.firebaseKey,
+          number: player.number,
           imageURL: player.imageURL,
           position: player.position,
           uid: user.uid,
@@ -48,7 +50,7 @@ export default function PlayerForm({
   };
   const resetForm = () => {
     setFormInput({ ...initialState });
-    setEditPlayers({});
+    setEditPlayers(initialState);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +58,7 @@ export default function PlayerForm({
       updatePlayer(formInput).then((players) => {
         setPlayers(players);
         resetForm();
-        history.push('/team');
+        history.push('/new');
       });
     } else {
       createPlayer({ ...formInput }).then((players) => {
@@ -70,7 +72,7 @@ export default function PlayerForm({
     <FormStyle>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="name">
+          <label htmlFor="name" sm={2}>
             <input
               className="form-control form-control-lg me-1"
               type="text"
@@ -84,7 +86,7 @@ export default function PlayerForm({
           </label>
         </div>
         <div>
-          <label htmlFor="imageUrl">
+          <label htmlFor="imageUrl" sm={2}>
             <input
               className="form-control form-control-lg me-1"
               type="url"
@@ -98,10 +100,10 @@ export default function PlayerForm({
           </label>
         </div>
         <div>
-          <label htmlFor="number">
+          <label htmlFor="number" sm={2}>
             <input
               className="form-control form-control-lg me-1"
-              type="number"
+              type="text"
               name="number"
               id="number"
               placeholder="Enter player number"
@@ -112,7 +114,7 @@ export default function PlayerForm({
           </label>
         </div>
         <div>
-          <label htmlFor="position">
+          <label htmlFor="position" sm={2}>
             <input
               className="form-control form-control-lg me-1"
               type="text"
@@ -127,7 +129,7 @@ export default function PlayerForm({
         </div>
         <span className="input-group-btn">
           <button className="btn btn-success submit" type="submit">
-            {player.firebaseKey ? 'Update' : 'submit'}
+            {player.firebaseKey ? 'update' : 'submit'}
           </button>
         </span>
       </form>
